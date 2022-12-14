@@ -1,0 +1,29 @@
+// Extra small screen sizes (mobile)
+@media (max-width: 320px) {
+  // Your extra small mobile-specific styles go here
+}
+
+// Small screen sizes (mobile)
+@media (min-width: 321px) and (max-width: 480px) {
+  // Your small mobile-specific styles go here
+}
+
+// Medium screen sizes (tablet)
+@media (min-width: 481px) and (max-width: 768px) {
+  // Your medium tablet-specific styles go here
+}
+
+// Large screen sizes (tablet)
+@media (min-width: 769px) and (max-width: 1024px) {
+  // Your large tablet-specific styles go here
+}
+
+// Extra large screen sizes (laptop)
+@media (min-width: 1025px) and (max-width: 1280px) {
+  // Your extra large laptop-specific styles go here
+}
+
+// Extra extra large screen sizes (desktop)
+@media (min-width: 1281px) {
+  // Your extra extra large desktop-specific styles go here
+}
