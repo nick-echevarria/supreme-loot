@@ -1,41 +1,35 @@
-import './styles/_app.scss';
+import Directory from './components/directory/directory';
+import { CategoryType } from './models/category';
 
-const App = () => {
-  const categories = [
+const App: React.FC = () => {
+  const categories: CategoryType[] = [
     {
       id: 1,
-      title: 'Hats'
+      title: 'Hats',
+      imageUrl: 'https://i.ibb.co/cvpntL1/hats.png'
     },
     {
-      id: 1,
-      title: 'Jackets'
+      id: 2,
+      title: 'Jackets',
+      imageUrl: 'https://i.ibb.co/px2tCc3/jackets.png'
     },
     {
-      id: 1,
-      title: 'Sneakers'
+      id: 3,
+      title: 'Sneakers',
+      imageUrl: 'https://i.ibb.co/0jqHpnp/sneakers.png'
     },
     {
-      id: 1,
-      title: 'Womens'
+      id: 4,
+      title: 'Womens',
+      imageUrl: 'https://i.ibb.co/GCCdy8t/womens.png'
     },
     {
-      id: 1,
-      title: 'Mens'
+      id: 5,
+      title: 'Mens',
+      imageUrl: 'https://i.ibb.co/R70vBrQ/men.png'
     }
   ];
-  return (
-    <div className="categories-container">
-      {categories.map(({ title, id }) => (
-        <div key={id} className="category-container">
-          <div className="background-image"></div>
-          <div className="category-body-container">
-            <h2>{title}</h2>
-            <h2>Shop Now</h2>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
+  return <Directory categories={categories} />;
 };
 
 export default App;
