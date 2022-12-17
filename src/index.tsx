@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
-import { UserProvider } from './stores/context/context';
+import { UserProvider } from './stores/context/user.context';
 
 import './styles/application.scss';
 

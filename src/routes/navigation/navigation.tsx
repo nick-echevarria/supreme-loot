@@ -1,17 +1,12 @@
 import { Outlet, Link } from 'react-router-dom';
 import { Fragment, useContext } from 'react';
 import { ReactComponent as SupremeLootLogo } from '../../assets/supreme-loot-logo.svg';
-import { UserContext } from '../../stores/context/context';
+import { UserContext } from '../../stores/context/user.context';
 import { signOutUser } from '../../utils/firebase/firebase.utils';
 
 const Navigation: React.FC = () => {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
 
-
-  const signOutHandler = async () => {
-    await signOutUser();
-    setCurrentUser(null);
-  };
   return (
     <Fragment>
       <div className="nav-container">
@@ -25,7 +20,7 @@ const Navigation: React.FC = () => {
             SHOP
           </Link>
           {currentUser ? (
-            <span className="nav-link" onClick={signOutHandler}>
+            <span className="nav-link" onClick={signOutUser}>
               SIGN OUT
             </span>
           ) : (
