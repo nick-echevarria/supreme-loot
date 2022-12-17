@@ -1,13 +1,17 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+
 import {
   createUserDocumentFromAuth,
   signInWithGooglePopup,
   signInAuthUserWithEmailAndPassword
 } from '../../utils/firebase/firebase.utils';
 import { AuthError } from 'firebase/auth';
+
 import FormInput from '../form-input/form-input';
 import Button from '../button/button';
+
+import { UserContext } from '../../stores/context/context';
 
 const defaultFormFields = {
   email: '',
@@ -17,6 +21,8 @@ const defaultFormFields = {
 const SignInForm: React.FC = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
+
+  const { setCurrentUser } = useContext(UserContext);
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -37,11 +43,11 @@ const SignInForm: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await signInAuthUserWithEmailAndPassword(
+      const { user } = await signInAuthUserWithEmailAndPassword(
         email,
         password
       );
-      console.log(response);
+      setCurrentUser(user);
       alert('Sign in successful!');
       resetFormFields();
     } catch (error) {

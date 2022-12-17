@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import {
   createUserDocumentFromAuth,
   createAuthUserWithEmailAndPassword
@@ -7,6 +7,8 @@ import {
 import { AuthError } from 'firebase/auth';
 import FormInput from '../form-input/form-input';
 import Button from '../button/button';
+
+import { UserContext } from '../../stores/context/context';
 
 const defaultFormFields = {
   displayName: '',
@@ -18,6 +20,8 @@ const defaultFormFields = {
 const SignUpForm: React.FC = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
+
+  const { setCurrentUser } = useContext(UserContext);
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -42,6 +46,9 @@ const SignUpForm: React.FC = () => {
         email,
         password
       );
+
+      setCurrentUser(user);
+
       await createUserDocumentFromAuth(user, { displayName });
       alert('User successfully created!');
       resetFormFields();
