@@ -5,6 +5,10 @@
 @import 'sign-up-form.scss';
 @import 'button.scss';
 @import 'authentication.scss';
+@import 'product-card.scss';
+@import 'shop.scss';
+@import 'cart-icon.scss';
+@import 'cart-dropdown.scss';
 
 * {
   box-sizing: border-box;
@@ -18,7 +22,7 @@ a {
 body {
   width: 100vw;
   height: 100vh;
-  padding: 1rem;
+  padding: 1.5rem;
   margin: 0;
   font-family: 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -1,11 +1,18 @@
-import { Outlet, Link } from 'react-router-dom';
 import { Fragment, useContext } from 'react';
-import { ReactComponent as SupremeLootLogo } from '../../assets/supreme-loot-logo.svg';
+import { Outlet, Link } from 'react-router-dom';
+
+import CartIcon from '../../components/cart-icon/cart-icon';
+import CartDropdown from '../../components/cart-dropdown/cart-dropdown';
+
 import { UserContext } from '../../stores/context/user.context';
+import { CartContext } from '../../stores/context/cart.context';
+
+import { ReactComponent as SupremeLootLogo } from '../../assets/supreme-loot-logo.svg';
 import { signOutUser } from '../../utils/firebase/firebase.utils';
 
 const Navigation: React.FC = () => {
   const { currentUser } = useContext(UserContext);
+  const { isCartOpen } = useContext(CartContext);
 
   return (
     <Fragment>
@@ -19,6 +26,7 @@ const Navigation: React.FC = () => {
           <Link className="nav-link" to="/shop">
             SHOP
           </Link>
+
           {currentUser ? (
             <span className="nav-link" onClick={signOutUser}>
               SIGN OUT
@@ -28,7 +36,9 @@ const Navigation: React.FC = () => {
               SIGN IN
             </Link>
           )}
+          <CartIcon />
         </div>
+        {isCartOpen ? <CartDropdown /> : null}
       </div>
       <Outlet />
     </Fragment>
