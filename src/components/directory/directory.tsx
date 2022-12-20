@@ -1,4 +1,4 @@
-import CategoryItem from '../category/category-item';
+import DirectoryItem from '../directory-item/directory-item';
 import { CategoryType } from '../../models/category';
 
 type DirectoryProps = {
@@ -9,7 +9,7 @@ const Directory: React.FC<DirectoryProps> = ({ categories }) => {
   return (
     <div className="directory-container">
       {categories.map((category) => (
-        <CategoryItem key={category.id} category={category} />
+        <DirectoryItem key={category.id} category={category} />
       ))}
     </div>
   );

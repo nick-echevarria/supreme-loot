@@ -1,20 +1,20 @@
 import { CategoryType } from '../../models/category';
 
-type CategoryItemProps = {
+type DirectoryItemProps = {
   category: CategoryType;
 };
 
-const CategoryItem: React.FC<CategoryItemProps> = ({ category }) => {
+const DirectoryItem: React.FC<DirectoryItemProps> = ({ category }) => {
   const { title, imageUrl } = category;
   return (
-    <div className="category-container">
+    <div className="directory-item-container">
       <div
         className="background-image"
         style={{
           backgroundImage: `url(${imageUrl})`
         }}
       ></div>
-      <div className="category-body-container">
+      <div className="directory-item-body">
         <h2>{title}</h2>
         <h2>Shop Now</h2>
       </div>
@@ -22,4 +22,4 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ category }) => {
   );
 };
 
-export default CategoryItem;
+export default DirectoryItem;
