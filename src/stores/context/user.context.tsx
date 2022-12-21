@@ -2,6 +2,7 @@ import {
   createUserDocumentFromAuth,
   onAuthStateChangedListener
 } from '../../utils/firebase/firebase.utils';
+
 import { createContext, useEffect, useState } from 'react';
 
 // actual value that needs to be accessed
