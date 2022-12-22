@@ -1,13 +1,9 @@
 import { compose, createStore, applyMiddleware } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import logger from 'redux-logger';
+import { loggerMiddleware } from '../../utils/middleware/logger';
 
 import { rootReducer } from './root-reducer';
-
-//incorporate logger to more easily keep track of pre- and post- state changes
-const middlewares = [logger];
-const composedEnhancers = compose(applyMiddleware(...middlewares));
 
 const persistConfig = {
   key: 'root',
@@ -16,6 +12,20 @@ const persistConfig = {
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+//incorporate custom logger to accurately track of pre- and post- state changes
+//note: .filter(Boolean) is to avoid falsy return, instead returning empty array, therefore not breaking everything
+const middlewares = [
+  import.meta.env.MODE !== 'production' && loggerMiddleware
+].filter(Boolean);
+
+const composeEnhancer =
+  (import.meta.env.MODE !== 'production' &&
+    window &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+  compose;
+
+const composedEnhancers = composeEnhancer(applyMiddleware(...middlewares));
 
 export const store = createStore(
   persistedReducer,
