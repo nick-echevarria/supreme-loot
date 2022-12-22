@@ -1,3 +1,3 @@
-export const CATEGORIES_ACTIONS_TYPES = {
+export const CATEGORIES_ACTION_TYPES = {
   SET_CATEGORIES: 'category/SET_CATEGORIES'
 };

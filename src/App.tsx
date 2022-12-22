@@ -12,7 +12,7 @@ import Authentication from './routes/authentication/authentication';
 import Navigation from './routes/navigation/navigation';
 import Shop from './routes/shop/shop';
 import Checkout from './routes/checkout/checkout';
-import { setCurrentUser } from './stores/redux/user/user.actions';
+import { setCurrentUser } from './store/redux/user/user.actions';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
