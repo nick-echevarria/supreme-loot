@@ -20,6 +20,7 @@
     "react-router-dom": "^6.4.5",
     "redux": "^4.2.0",
     "redux-logger": "^3.0.6",
+    "redux-persist": "^6.0.0",
     "reselect": "^4.1.7",
     "sass": "^1.56.2",
     "vite-plugin-svgr": "^2.4.0"
