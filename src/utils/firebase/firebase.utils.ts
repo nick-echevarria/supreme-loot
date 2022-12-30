@@ -20,6 +20,7 @@ import {
   query,
   getDocs
 } from 'firebase/firestore';
+import { resolveBaseUrl } from 'vite';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD37fZSLnAetuQrTROw7Q3VQJQoeef9bA8',
@@ -95,7 +96,7 @@ export const createUserDocumentFromAuth = async (
       console.log('Error creating the user:', error);
     }
   }
-  return userDocRef;
+  return userSnapshot;
 };
 
 export const createAuthUserWithEmailAndPassword = async (
@@ -120,3 +121,17 @@ export const signOutUser = async () => await signOut(auth);
 
 export const onAuthStateChangedListener = (callback) =>
   onAuthStateChanged(auth, callback);
+
+  //check if we have an active user 
+export const getCurrentUser = () => { 
+  return new Promise([resolve, reject]) => { 
+  const unsubscribe = onAuthStateChanged(
+    auth, (userAuth) => {
+      //when we have the user, we unsub to avoid a memory leak
+      unsubscribe();
+      resolve(userAuth);
+  }, 
+    reject
+    )
+  }
+}
