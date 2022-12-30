@@ -8,6 +8,7 @@ import {
   signOut,
   onAuthStateChanged
 } from 'firebase/auth';
+
 import { User } from 'firebase/auth';
 
 import {
@@ -20,7 +21,6 @@ import {
   query,
   getDocs
 } from 'firebase/firestore';
-import { resolveBaseUrl } from 'vite';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD37fZSLnAetuQrTROw7Q3VQJQoeef9bA8',
@@ -34,28 +34,30 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 
-const provider = new GoogleAuthProvider();
+const googleProvider = new GoogleAuthProvider();
 
-provider.setCustomParameters({
+googleProvider.setCustomParameters({
   prompt: 'select_account'
 });
 
 export const auth = getAuth();
-export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+
+export const signInWithGooglePopup = () =>
+  signInWithPopup(auth, googleProvider);
 
 export const db = getFirestore();
 
 export const addCollectionAndDocuments = async (
   collectionKey,
   objectsToAdd,
-  field = 'title'
+  field
 ) => {
-  const batch = writeBatch(db);
   const collectionRef = collection(db, collectionKey);
+  const batch = writeBatch(db);
 
   //able to attach a set of reads + writes etc
   objectsToAdd.forEach((object) => {
-    const docRef = doc(collectionRef, object[field].toLowerCase());
+    const docRef = doc(collectionRef, object.title.toLowerCase());
     batch.set(docRef, object);
   });
 
@@ -122,16 +124,17 @@ export const signOutUser = async () => await signOut(auth);
 export const onAuthStateChangedListener = (callback) =>
   onAuthStateChanged(auth, callback);
 
-  //check if we have an active user 
-export const getCurrentUser = () => { 
-  return new Promise([resolve, reject]) => { 
-  const unsubscribe = onAuthStateChanged(
-    auth, (userAuth) => {
-      //when we have the user, we unsub to avoid a memory leak
-      unsubscribe();
-      resolve(userAuth);
-  }, 
-    reject
-    )
-  }
-}
+//check if we have an active user
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        //when we have the user, we unsub to avoid a memory leak
+        unsubscribe();
+        resolve(userAuth);
+      },
+      reject
+    );
+  });
+};

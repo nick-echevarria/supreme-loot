@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import {
-  createUserDocumentFromAuth,
-  signInWithGooglePopup,
-  signInAuthUserWithEmailAndPassword
-} from '../../utils/firebase/firebase.utils';
+  googleSignInStart,
+  emailSignInStart
+} from '../../store/redux/user/user.actions';
+
 import { AuthError } from 'firebase/auth';
 
 import FormInput from '../form-input/form-input';
@@ -19,14 +20,14 @@ const defaultFormFields = {
 const SignInForm: React.FC = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
+  const dispatch = useDispatch();
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
   };
 
   const signInWithGoogle = async () => {
-    await signInWithGooglePopup();
-    
+    dispatch(googleSignInStart());
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,16 +40,13 @@ const SignInForm: React.FC = () => {
     e.preventDefault();
 
     try {
-      const { user } = await signInAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
+      dispatch(emailSignInStart(email, password));
       alert('Sign in successful!');
       resetFormFields();
     } catch (error) {
       switch ((error as AuthError).code) {
         case 'auth/wrong-password':
-          alert('Inocrrect password for email supplied');
+          alert('Incorrect password for email supplied');
           break;
         case 'auth/user-not-found':
           alert('No user associated with this email!');
