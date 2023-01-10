@@ -1,10 +1,15 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+
 import {
   createUserDocumentFromAuth,
   createAuthUserWithEmailAndPassword
 } from '../../utils/firebase/firebase.utils';
 import { AuthError } from 'firebase/auth';
+
+import { signUpStart } from '../../store/redux/user/user.actions';
+
 import FormInput from '../form-input/form-input';
 import Button from '../button/button';
 
@@ -18,6 +23,7 @@ const defaultFormFields = {
 const SignUpForm: React.FC = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
+  const dispatch = useDispatch();
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -35,29 +41,26 @@ const SignUpForm: React.FC = () => {
     //confirm passwords match
     if (password !== confirmPassword) {
       alert('Passwords do not match');
+      return;
     }
 
     try {
-      const { user } = await createAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
-
-      await createUserDocumentFromAuth(user, { displayName });
+      dispatch(signUpStart(email, password, displayName));
       alert('User successfully created!');
       resetFormFields();
     } catch (error) {
       if ((error as AuthError).code === 'auth/email-already-in-use') {
         alert('Email already in use');
+      } else {
+        console.log('Error in user creation:', error);
       }
-      console.log('Error in user creation:', error);
     }
   };
 
   return (
     <div className="sign-up-container">
       <h2>Don't have an account?</h2>
-      <span>Sign ip with your email and password:</span>
+      <span>Sign up with your email and password:</span>
       <form onSubmit={handleSubmit}>
         <FormInput
           label="Display Name"
